@@ -60,4 +60,3 @@ const products = [
 export function getProducts() {
     return products;
 }
-// https:"//media.istockphoto.com/id/153712736/photo/hazelnuts.jpg?s=1024x1024&w=is&k=20&c=3yOMOAWVMNeE6SoTyBDIx5XkJaGKZ7SO_0yaO-_vOPQ="
