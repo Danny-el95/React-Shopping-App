@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../Context/AuthContext';
@@ -91,11 +91,11 @@ const Auth = () => {
                     <div className='auth-switch'>
                         {mode === 'signUp' ? (
                             <p>Already have an account?
-                                <span className='auth-link' onClick={() => setMode('login')}>
+                                <button type='button' className='auth-link' onClick={() => setMode('login')}>
                                     Login
-                                </span></p>
+                                </button></p>
                         ) : (
-                            <p>Don't have an account? <span className='auth-link' onClick={() => setMode('signUp')}>Sign Up</span></p>
+                            <p>Don't have an account? <button type='button' className='auth-link' onClick={() => setMode('signUp')}>Sign Up</button></p>
                         )}
                     </div>
                 </div>
