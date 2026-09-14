@@ -5,17 +5,22 @@ import Home from './Pages/Home'
 import Auth from './Pages/Auth'
 import Checkout from './Pages/Checkout'
 import Navbar from './Components/Navbar'
+import AuthProvider from './Context/AuthContext'
+import NotFound from './Pages/NotFound'
 
 const App = () => {
   return (
-    <div className="app">
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/checkout" element={<Checkout />} />
-      </Routes>
-    </div>
+    <AuthProvider>
+      <div className="app">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </AuthProvider>
   )
 }
 

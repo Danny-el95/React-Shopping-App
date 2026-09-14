@@ -115,12 +115,14 @@ body {
   font-size: 3rem;
   margin-bottom: 1rem;
   color: #333;
+  padding-left: 1rem;
 }
 
 .home-subtitle {
   font-size: 1.25rem;
   color: #666;
   margin-bottom: 2rem;
+  padding-left: 1rem;
 }
 
 .product-grid {
@@ -532,7 +534,7 @@ body {
   }
 
   .home-title {
-    font-size: 2rem;
+    font-size: 1rem;
   }
 
   .product-grid {
@@ -558,4 +560,35 @@ body {
   .checkout-item-controls {
     align-items: flex-start;
   }
+}
+
+.Not-found {
+  text-align: center;
+  padding: 2rem;
+}
+
+.Not-found h1 {
+  font-size: 2rem;
+}
+
+.Not-found p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.Not-found-link {
+  background-color: #0171e9;
+  border-radius: 8px;
+  padding: 0.3rem 0.4rem 0.4rem;
+  text-decoration: none;
+  color: white;
+}
+
+.Not-found-link:hover {
+  background-color: #0157b4;
+}
+
+.Not-found-link:active {
+  background-color: #013b7a;
+
 }
