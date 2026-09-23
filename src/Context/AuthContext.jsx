@@ -1,13 +1,23 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import { useState } from "react";
 
-export const AuthContext = createContext(null);
+const AuthContext = createContext(null);
 
 export default function AuthProvider({ children }) {
-    const [user, setUser] = useState(localStorage.getItem("currentUserEmail")
-        ? { email: localStorage.getItem("currentUserEmail") }
-        : null
-    );
+    // const [user, setUser] = useState(localStorage.getItem("currentUserEmail")
+    //     ? { email: localStorage.getItem("currentUserEmail") }
+    //     : null
+    // );
+
+    const [user, setUser] = useState(() => {
+        const savedEmail = localStorage.getItem("currentUserEmail");
+        if (savedEmail) {
+            const users = JSON.parse(localStorage.getItem("users") || "[]");
+            const matched = users.find((u) => u.email === savedEmail);
+            if (matched) return { username: matched.username, email: matched.email }
+        }
+        return null;
+    });
 
     const signUp = (username, email, password) => {
         // Implementation for sign-up logic
@@ -22,22 +32,22 @@ export default function AuthProvider({ children }) {
         localStorage.setItem("users", JSON.stringify(users));
         localStorage.setItem("currentUserEmail", email);
 
-        setUser({ email });
+        setUser({ username, email });
         return { success: true };
     };
 
     const login = (email, password) => {
         const users = JSON.parse(localStorage.getItem("users") || "[]");
-        const user = users.find(
+        const matchedUser = users.find(
             (u) => u.email === email && u.password === password
         );
 
-        if (!user) {
+        if (!matchedUser) {
             return { success: false, error: "Invalid email or password" }
         }
 
         localStorage.setItem("currentUserEmail", email);
-        setUser({ email });
+        setUser({ username: matchedUser.username, email: matchedUser.email });
 
         return { success: true };
     }
@@ -47,4 +57,10 @@ export default function AuthProvider({ children }) {
         setUser(null);
     }
     return <AuthContext.Provider value={{ signUp, user, logout, login }}>{children}</AuthContext.Provider>;
+}
+
+export function useAuth() {
+    const context = useContext(AuthContext);
+
+    return context;
 }

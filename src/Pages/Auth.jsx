@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { AuthContext } from '../Context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../Context/AuthContext';
+import { replace, useNavigate } from 'react-router-dom';
 // import { useLocation } from 'react-router-dom';
 
 
@@ -10,9 +10,8 @@ const Auth = () => {
     const [mode, setMode] = useState('signUp');
     const [error, setError] = useState(null);
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { signUp, user, logout, login } = useContext(AuthContext);
+    const { signUp, user, login } = useAuth();
 
-    const navigate = useNavigate();
     // const location = useLocation();
 
     // useEffect(() => {
@@ -20,6 +19,14 @@ const Auth = () => {
     //         setMode(location.state.initialMode);
     //     }
     // }, [location]);
+
+    const navigate = useNavigate();
+
+    // useEffect(() => {
+    //     if (user) {
+    //         navigate('/', { replace: true });
+    //     }
+    // }, [user, navigate]);
 
     const onSubmit = (data) => {
         setError(null)
@@ -43,8 +50,6 @@ const Auth = () => {
         <div className='page'>
             <div className='container'>
                 <div className='auth-container'>
-                    {user && <p>User is logged in as {user.email}</p>}
-                    <button onClick={() => logout()}>Logout</button>
                     <h1 className='page-title'>
                         {mode === 'signUp' ? 'Sign up' : 'Login'}
                     </h1>
@@ -91,11 +96,11 @@ const Auth = () => {
                     <div className='auth-switch'>
                         {mode === 'signUp' ? (
                             <p>Already have an account?
-                                <span className='auth-link' onClick={() => setMode('login')}>
+                                <button type='button' className='auth-link' onClick={() => setMode('login')}>
                                     Login
-                                </span></p>
+                                </button></p>
                         ) : (
-                            <p>Don't have an account? <span className='auth-link' onClick={() => setMode('signUp')}>Sign Up</span></p>
+                            <p>Don't have an account? <button type='button' className='auth-link' onClick={() => setMode('signUp')}>Sign Up</button></p>
                         )}
                     </div>
                 </div>
