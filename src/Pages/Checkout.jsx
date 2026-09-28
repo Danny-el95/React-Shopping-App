@@ -1,4 +1,7 @@
 import { useCart } from "../Context/CartContext"
+import { useNavigate } from "react-router-dom";
+import { useAuth } from '../Context/AuthContext';
+import { useContext } from "react";
 
 
 const Checkout = () => {
@@ -6,8 +9,18 @@ const Checkout = () => {
     const cartItems = getCartItemsWithProduct();
 
     const total = getCartTotal();
+    const navigate = useNavigate();
+    const { user } = useAuth();
 
     const placeOrder = () => {
+
+        if (!user) {
+            alert("Please log in or sign up to place an order");
+            navigate('/auth');
+            return;
+        }
+
+
         if (total === 0) {
             alert("Please add an item")
         } else {
