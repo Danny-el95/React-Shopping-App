@@ -7,7 +7,7 @@ const NotFound = () => {
             <p>This page does not exist. </p>
 
             <Link
-                to='/' className='Not-found-link'>
+                to='/' className='btn Not-found-link'>
                 Go back
             </Link>
         </section>
