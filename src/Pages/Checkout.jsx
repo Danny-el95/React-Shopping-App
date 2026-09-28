@@ -6,8 +6,13 @@ const Checkout = () => {
     const cartItems = getCartItemsWithProduct();
 
     const total = getCartTotal();
+
     const placeOrder = () => {
-        alert("Order Successful");
+        if (total === 0) {
+            alert("Please add an item")
+        } else {
+            alert("Order Successful");
+        }
 
         clearCheckout();
     }
@@ -50,11 +55,11 @@ const Checkout = () => {
                     <div className="checkout-summary">
                         <h2 className="section-checkout-title">Total</h2>
                         <div className="checkout-total">
-                            <p className="checkout-total-label">subtotal</p>
+                            <p className="checkout-total-label">Subtotal</p>
                             <p className="checkout-total-value">${total.toFixed(2)}</p>
                         </div>
                         <div className="checkout-total">
-                            <p className="checkout-total-label">subtotal</p>
+                            <p className="checkout-total-label">Total</p>
                             <p className="checkout-total-value checkout-total-final">${total.toFixed(2)}</p>
                         </div>
 
