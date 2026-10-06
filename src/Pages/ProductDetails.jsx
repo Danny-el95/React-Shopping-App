@@ -28,9 +28,6 @@ const ProductDetails = () => {
 
     const productInCart = cartItems.find((item) => item.id === product.id);
 
-    const productQuantityLabel = productInCart ? `(${productInCart.quantity})`
-        : "";
-
     return (
         <div className="page">
             <div className="container">
@@ -39,10 +36,14 @@ const ProductDetails = () => {
                         <img src={product.image} alt={product.name}></img>
                     </div>
                     <div className="product-detail-content">
+                        <p className="product-card-eyebrow">D&apos;s NutShop</p>
                         <h1 className="product-detail-name">{product.name}</h1>
-                        <p className="product-detail-price">${product.price}</p>
+                        <p className="product-detail-price">${product.price.toFixed(2)}</p>
                         <p className="product-detail-description">{product.description}</p>
-                        <button className="btn btn-primary" onClick={() => addToCart(product.id)}>Add to cart {productQuantityLabel}</button>
+                        <span className="product-card-cart-count product-detail-cart-count">
+                            {productInCart ? `${productInCart.quantity} in cart` : 'Not in cart yet'}
+                        </span>
+                        <button type="button" className="product-card-add product-detail-add" onClick={() => addToCart(product.id)}>+ Add to cart</button>
                     </div>
                 </div>
             </div>
