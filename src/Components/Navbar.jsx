@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useAuth } from '../Context/AuthContext'
 import { useCart } from '../Context/CartContext'
+import { useOrder } from '../Context/OrderContext'
 
 const Navbar = () => {
     const sidebar = useRef(null);
@@ -25,6 +26,10 @@ const Navbar = () => {
     const cartQuantity = cartItems.reduce(
         (total, item) => total + item.quantity, 0
     );
+    const { orders } = useOrder();
+    const orderCount = user
+        ? orders.filter(order => order.customerEmail === user.email).length
+        : 0;
     return (
         <nav className='navbar'>
             <div className='navbar-container'>
@@ -47,6 +52,13 @@ const Navbar = () => {
                                 {cartQuantity}
                             </span>
                         )}
+                    </Link>
+                    <Link to='/orders'
+                        className="navbar-link navbar-cart"
+                        onClick={closeMenu}
+                        aria-label={`Orders, ${orderCount} ${orderCount === 1 ? 'order' : 'orders'}`}
+                    >
+                        Orders {orderCount > 0 && <span className='cart-badge' aria-hidden='true'>{orderCount}</span>}
                     </Link>
                 </div>
                 {!user ? (<div className="navbar-auth">
@@ -71,6 +83,9 @@ const Navbar = () => {
                     <NavLink to='/' end onClick={closeMenu}>Home</NavLink>
                     <NavLink to='/checkout' onClick={closeMenu} aria-label={`Cart, ${cartQuantity} ${cartQuantity === 1 ? 'item' : 'items'}`}>
                         Cart {cartQuantity > 0 && <span className='cart-badge' aria-hidden='true'>{cartQuantity}</span>}
+                    </NavLink>
+                    <NavLink to='/orders' onClick={closeMenu} aria-label={`Orders, ${orderCount} ${orderCount === 1 ? 'order' : 'orders'}`}>
+                        Orders {orderCount > 0 && <span className='cart-badge' aria-hidden='true'>{orderCount}</span>}
                     </NavLink>
                 </div>
                 <div className='navbar-sidebar-account'>

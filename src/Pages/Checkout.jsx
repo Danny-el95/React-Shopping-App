@@ -1,15 +1,46 @@
 import { useCart } from "../Context/CartContext"
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../Context/AuthContext';
+import { useLayoutEffect, useRef } from "react";
+import { useOrder } from "../Context/OrderContext";
 
 
 const Checkout = () => {
     const { getCartItemsWithProduct, updateQuantity, removeFromCart, getCartTotal, clearCheckout } = useCart();
     const cartItems = getCartItemsWithProduct();
+    const removeButtons = useRef(new Map());
+    const emptyMessage = useRef(null);
+    const pendingFocus = useRef(null);
+
+    // Wait for React to remove the row before focusing a remaining control.
+    useLayoutEffect(() => {
+        const target = pendingFocus.current;
+        if (!target) return;
+        if (target.empty && cartItems.length !== 0) return;
+        if (!target.empty && cartItems.some(item => item.id === target.removedId)) return;
+
+        const nextButton = removeButtons.current.get(target.nextId);
+        (nextButton || emptyMessage.current)?.focus();
+        pendingFocus.current = null;
+    });
+
+    const removeItem = (productId) => {
+        const index = cartItems.findIndex(item => item.id === productId);
+        if (index < 0) return;
+        const nextItem = cartItems[index + 1] || cartItems[index - 1];
+        pendingFocus.current = { removedId: productId, nextId: nextItem?.id };
+        removeFromCart(productId);
+    };
+
+    const clearCartWithFocus = () => {
+        pendingFocus.current = { empty: true };
+        clearCheckout();
+    };
 
     const total = getCartTotal();
     const navigate = useNavigate();
     const { user } = useAuth();
+    const { saveOrder } = useOrder();
 
     const placeOrder = () => {
 
@@ -21,13 +52,22 @@ const Checkout = () => {
 
 
         if (total === 0) {
-            alert("Please add an item")
-        } else {
-            alert("Order Successful");
+            alert("Please add an item");
+            return;
         }
+        const saved = saveOrder();
 
-        clearCheckout();
+        if (!saved) {
+            alert("Could not save your order. Your cart has been kept. Please try again.");
+            return;
+        }
+        
+        alert("Order Successful");
+        clearCartWithFocus();
+        navigate('/orders');
     }
+
+    
 
     const emptyCart = () => {
         if (cartItems.length === 0) return;
@@ -35,7 +75,7 @@ const Checkout = () => {
         // Ask for confirmation before clearing the cart
         const confirmed = window.confirm("Are you sure you want to empty your cart? All Items will be removed.");
         if (confirmed) {
-            clearCheckout();
+            clearCartWithFocus();
         }
     }
     return (
@@ -45,7 +85,7 @@ const Checkout = () => {
                 <div className="checkout-container">
                     <div className="checkout-items">
                         <h2 className="checkout-section-title"> Order Summary</h2>
-                        {cartItems.length === 0 && <p className="checkout-empty">Your cart is empty. Browse our nuts to find your next favorite.</p>}
+                        {cartItems.length === 0 && <p ref={emptyMessage} tabIndex={-1} className="checkout-empty">Your cart is empty. Browse our nuts to find your next favorite.</p>}
                         {cartItems.map((item) => (
                             <div key={item.id} className="checkout-item">
                                 <img
@@ -59,7 +99,7 @@ const Checkout = () => {
                                 </div>
                                 <div className="checkout-item-controls">
                                     <div className="quantity-controls">
-                                        <button className="quantity-btn" aria-label={`Decrease ${item.product.name} quantity`} onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
+                                        <button className="quantity-btn" aria-label={`Decrease ${item.product.name} quantity`} onClick={() => item.quantity === 1 ? removeItem(item.id) : updateQuantity(item.id, item.quantity - 1)}>-</button>
                                         <span className="quantity-value">{item.quantity}</span>
                                         <button className="quantity-btn" aria-label={`Increase ${item.product.name} quantity`} onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
                                     </div>
@@ -67,7 +107,7 @@ const Checkout = () => {
                                     <p className="checkout-item-total">
                                         ${(item.product.price * item.quantity).toFixed(2)}
                                     </p>
-                                    <button className="checkout-remove" aria-label={`Remove ${item.product.name} from cart`} onClick={() => removeFromCart(item.id)}>
+                                    <button ref={(node) => { if (node) removeButtons.current.set(item.id, node); else removeButtons.current.delete(item.id); }} className="checkout-remove" aria-label={`Remove ${item.product.name} from cart`} onClick={() => removeItem(item.id)}>
                                         Remove
                                     </button>
                                 </div>

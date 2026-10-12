@@ -36,7 +36,7 @@ const ProductCard = ({ product }) => {
                 </div>
                 <div className='product-card-actions'>
                     <button type='button' className='product-card-add' onClick={handleAddToCart} aria-label={`Add ${product.name} to cart`}>
-                        {added ? '✓ Added to cart' : '+ Add to cart'}
+                        {added ? `✓ Added to cart (${productInCart.quantity})` : '+ Add to cart'}
                     </button>
                     <Link className='product-card-details' to={`/products/${product.id}`} aria-label={`View ${product.name} details`}>View details <span aria-hidden='true'>→</span></Link>
                 </div>
