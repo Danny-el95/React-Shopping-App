@@ -11,8 +11,12 @@ export default function CartProvider({ children }) {
             const storeCart = JSON.parse(localStorage.getItem(CART_KEY) || "[]"
             );
     
-            return Array.isArray(storeCart) ? storeCart : []; 
-        } catch (error) {
+            return Array.isArray(storeCart) ? storeCart.filter(item =>
+                item !== null && typeof item === "object" &&
+                Number.isSafeInteger(item.id) && !!getProductsById(item.id) &&
+                Number.isSafeInteger(item.quantity) && item.quantity > 0
+            ) : [];
+        } catch {
             return [];
         }
 

@@ -52,17 +52,17 @@ const Checkout = () => {
 
 
         if (total === 0) {
-            alert("Please add an item")
-        } else {
-            alert("Order Successful");
+            alert("Please add an item");
+            return;
         }
         const saved = saveOrder();
 
         if (!saved) {
-            alert("Could not save your order. Please try again.");
+            alert("Could not save your order. Your cart has been kept. Please try again.");
             return;
         }
         
+        alert("Order Successful");
         clearCartWithFocus();
         navigate('/orders');
     }
