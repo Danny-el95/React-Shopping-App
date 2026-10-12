@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../Context/AuthContext';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 
 const Auth = () => {
@@ -86,6 +86,11 @@ const AuthForm = ({ initialMode }) => {
                                 })} />
                                 <button type='button' className='auth-password-toggle' aria-controls='password' aria-label={showPassword ? 'Hide password' : 'Show password'} aria-pressed={showPassword} onClick={() => setShowPassword(!showPassword)}>{showPassword ? 'Hide' : 'Show'}</button>
                             </div>
+                            {mode === 'login' && (
+                                <Link to='/auth/forgot-password' className='auth-forgot-password'>
+                                    Forgot your password?
+                                </Link>
+                            )}
                             {errors.password && <span id='password-error' className='form-error' role='alert'>{errors.password.message}</span>}
                         </div>
                         <button type='submit' className='auth-submit'>

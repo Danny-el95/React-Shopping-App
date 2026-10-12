@@ -25,6 +25,7 @@ const Navbar = () => {
     const cartQuantity = cartItems.reduce(
         (total, item) => total + item.quantity, 0
     );
+    const { saveOrder } = useCart();
     return (
         <nav className='navbar'>
             <div className='navbar-container'>
@@ -47,6 +48,12 @@ const Navbar = () => {
                                 {cartQuantity}
                             </span>
                         )}
+                    </Link>
+                    <Link to='/orders'
+                        className="navbar-link navbar-cart"
+                        onClick={closeMenu}
+                    >
+                        Orders {saveOrder > 0 && <span className='cart-badge' aria-hidden='true'>{saveOrder}</span>}
                     </Link>
                 </div>
                 {!user ? (<div className="navbar-auth">
@@ -71,6 +78,9 @@ const Navbar = () => {
                     <NavLink to='/' end onClick={closeMenu}>Home</NavLink>
                     <NavLink to='/checkout' onClick={closeMenu} aria-label={`Cart, ${cartQuantity} ${cartQuantity === 1 ? 'item' : 'items'}`}>
                         Cart {cartQuantity > 0 && <span className='cart-badge' aria-hidden='true'>{cartQuantity}</span>}
+                    </NavLink>
+                    <NavLink to='/orders' onClick={closeMenu}>
+                        Orders {saveOrder > 0 && <span className='cart-badge' aria-hidden='true'>{saveOrder}</span>}
                     </NavLink>
                 </div>
                 <div className='navbar-sidebar-account'>

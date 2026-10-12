@@ -1,11 +1,30 @@
 import { createContext, useContext } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getProductsById } from "../Data/Products";
 
 const CartContext = createContext(null);
 
 export default function CartProvider({ children }) {
-    const [cartItems, setCartItems] = useState([]); //{id: 2. Quantity: 5}
+    const CART_KEY = "nutshop.cart.v1";
+    const [cartItems, setCartItems] = useState(() => {
+        try {
+            const storeCart = JSON.parse(localStorage.getItem(CART_KEY) || "[]"
+            );
+    
+            return Array.isArray(storeCart) ? storeCart : []; 
+        } catch (error) {
+            return [];
+        }
+
+    }); //{id: 2. Quantity: 5}
+    
+    useEffect(() => {
+        try {
+            localStorage.setItem(CART_KEY, JSON.stringify(cartItems));
+        } catch (error) {
+            console.error("Cart could not be saved:", error);
+        }
+    }, [cartItems]);
 
     const addToCart = (productId) => {
         const existing = cartItems.find((item) => item.id === productId)
