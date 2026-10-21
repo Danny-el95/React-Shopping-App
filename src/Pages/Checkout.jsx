@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../Context/AuthContext';
 import { useLayoutEffect, useRef } from "react";
 import { useOrder } from "../Context/OrderContext";
+import { toast } from "react-toastify";
 
 
 const Checkout = () => {
@@ -29,12 +30,14 @@ const Checkout = () => {
         if (index < 0) return;
         const nextItem = cartItems[index + 1] || cartItems[index - 1];
         pendingFocus.current = { removedId: productId, nextId: nextItem?.id };
+        toast.success('Item deleted')
         removeFromCart(productId);
     };
 
     const clearCartWithFocus = () => {
         pendingFocus.current = { empty: true };
         clearCheckout();
+
     };
 
     const total = getCartTotal();
@@ -61,13 +64,13 @@ const Checkout = () => {
             alert("Could not save your order. Your cart has been kept. Please try again.");
             return;
         }
-        
-        alert("Order Successful");
+
         clearCartWithFocus();
+        toast.success('You have successfully placed an order!')
         navigate('/orders');
     }
 
-    
+
 
     const emptyCart = () => {
         if (cartItems.length === 0) return;
@@ -75,6 +78,7 @@ const Checkout = () => {
         // Ask for confirmation before clearing the cart
         const confirmed = window.confirm("Are you sure you want to empty your cart? All Items will be removed.");
         if (confirmed) {
+            toast.success('Cart deleted successfully')
             clearCartWithFocus();
         }
     }

@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { useAuth } from '../Context/AuthContext'
 import { useCart } from '../Context/CartContext'
 import { useOrder } from '../Context/OrderContext'
+import BrandLogo from './BrandLogo'
 
 const Navbar = () => {
     const sidebar = useRef(null);
@@ -34,7 +35,7 @@ const Navbar = () => {
         <nav className='navbar'>
             <div className='navbar-container'>
                 <Link to='/' className='navbar-brand'>
-                    D's NutShop
+                    <BrandLogo />
                 </Link>
                 <button type='button' className='navbar-menu-toggle' aria-label='Open navigation menu' aria-haspopup='dialog' aria-controls='mobile-navigation' aria-expanded={menuOpen} onClick={() => { sidebar.current.showModal(); setMenuOpen(true); }}>
                     <svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' aria-hidden='true'><path d='M4 6h16M4 12h16M4 18h16' /></svg>
@@ -76,7 +77,7 @@ const Navbar = () => {
             </div>
             <dialog ref={sidebar} id='mobile-navigation' className='navbar-sidebar' aria-labelledby='mobile-menu-title' onClose={() => setMenuOpen(false)} onClick={(event) => { if (event.target === event.currentTarget) { const bounds = event.currentTarget.getBoundingClientRect(); if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) closeMenu(); } }}>
                 <div className='navbar-sidebar-header'>
-                    <h2 id='mobile-menu-title'>D&apos;s NutShop</h2>
+                    <h2 id='mobile-menu-title'><BrandLogo /></h2>
                     <button type='button' className='navbar-menu-close' aria-label='Close navigation menu' onClick={closeMenu} autoFocus>×</button>
                 </div>
                 <div className='navbar-sidebar-links'>
@@ -87,6 +88,7 @@ const Navbar = () => {
                     <NavLink to='/orders' onClick={closeMenu} aria-label={`Orders, ${orderCount} ${orderCount === 1 ? 'order' : 'orders'}`}>
                         Orders {orderCount > 0 && <span className='cart-badge' aria-hidden='true'>{orderCount}</span>}
                     </NavLink>
+                    <NavLink to='/product' onClick={closeMenu}>Products</NavLink>
                 </div>
                 <div className='navbar-sidebar-account'>
                     {user ? <>

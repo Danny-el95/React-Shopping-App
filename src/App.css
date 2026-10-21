@@ -6,6 +6,91 @@
   padding: 0;
 }
 
+.orders-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.orders-header .page-title {
+  margin-bottom: 0;
+}
+
+.orders-search {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+  margin-left: auto;
+  width: min(100%, 420px);
+}
+
+.orders-search-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #d8cbbc;
+  border-radius: 8px;
+  background: #fffdf8;
+  color: #3f2b1b;
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.orders-search-input::placeholder {
+  color: #6c6054;
+}
+
+.orders-search-button {
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  border: 1px solid #52613e;
+  border-radius: 8px;
+  background: #52613e;
+  color: #fff;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.orders-search-button:hover {
+  background: #3c492c;
+  border-color: #3c492c;
+}
+
+.orders-search-input:focus {
+  outline: none;
+  border-color: transparent;
+  background: #edf0e5;
+}
+
+.orders-search-button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.orders-search-button:focus-visible {
+  outline: 3px solid #8d5426;
+  outline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+  .orders-search {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 360px) {
+  .orders-search {
+    flex-direction: column;
+  }
+}
+
 .orders-list {
   display: grid;
   gap: 1.5rem;
@@ -23,14 +108,18 @@
 
 .order-heading {
   color: #3f2b1b;
-  font-size: 1.2rem;
-  line-height: 1.5;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
 .order-reference {
   overflow-wrap: anywhere;
-  font-size: 0.9rem;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.85rem;
   font-weight: 500;
+  color: #6c6054;
 }
 
 .order-date,
@@ -55,11 +144,12 @@
   overflow-wrap: anywhere;
 }
 
-.order-item h3 { color: #3f2b1b; font-size: 1rem; }
+.order-item h3 { color: #3f2b1b; font-size: 1rem; font-weight: 600; line-height: 1.4; }
 .order-item-total { color: #52613e; font-weight: 600; text-align: right; }
 .order-subtotal { margin-top: 0.5rem; padding-top: 1.25rem; border-top: 2px solid #d8cbbc; color: #3f2b1b; text-align: right; font-size: 1.15rem; }
 .order-shipping-note { margin-top: 0.25rem; color: #6c6054; text-align: right; font-size: 0.85rem; }
-.order-item-total, .order-subtotal { font-variant-numeric: tabular-nums; }
+.order-item p, .order-subtotal { font-variant-numeric: tabular-nums; }
+.order-subtotal strong { font-weight: 600; }
 
 @media (max-width: 768px) {
   .orders-page .container { padding: 0 1rem; }
@@ -127,10 +217,52 @@ body {
 }
 
 .navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font-size: 1.5rem;
   font-weight: bold;
   color: #333;
   text-decoration: none;
+}
+
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: #3f2b1b;
+  vertical-align: middle;
+}
+
+.brand-logo-monogram {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 44px;
+  border-radius: 50%;
+  background: #52613e;
+  color: #fffdf8;
+  flex-shrink: 0;
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  font-size: 1.65rem;
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+
+.brand-logo-shop {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.navbar-brand:focus-visible {
+  outline: 3px solid #8d5426;
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 
 .navbar-links {
@@ -248,25 +380,54 @@ body {
   color: #333;
 }
 
+.home-page {
+  padding-top: 1rem;
+}
+
 .home-hero {
   text-align: center;
-  padding: 4rem 2rem;
-  max-width: 800px;
+  padding: clamp(2rem, 6vw, 4.5rem) 1.25rem;
+  padding-top: clamp(1rem, 3vw, 2rem);
+  max-width: 880px;
   margin: 0 auto;
 }
 
-.home-title {
-  font-size: 3rem;
+.home-eyebrow {
+  color: #52613e;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   margin-bottom: 1rem;
-  color: #333;
-  padding-left: 1rem;
+}
+
+.home-hero .home-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2.25rem, 5.5vw, 4.25rem);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  margin: 0 0 1.25rem;
+  color: #3f2b1b;
+}
+
+.home-title span {
+  color: #52613e;
 }
 
 .home-subtitle {
-  font-size: 1.25rem;
-  color: #666;
-  margin-bottom: 2rem;
-  padding-left: 1rem;
+  max-width: 540px;
+  margin: 0 auto;
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  line-height: 1.75;
+  color: #6c6054;
+}
+
+.home-products-title {
+  text-align: center;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #3f2b1b;
 }
 
 .product-grid {
@@ -274,6 +435,79 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 2rem;
   margin-top: 2rem;
+}
+
+.home-page .product-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 248.745px), 281.19px));
+  justify-content: center;
+  gap: 2rem;
+}
+
+.home-page .product-card-image {
+  /* Offset the wider card so its image is 4% shorter. */
+  aspect-ratio: 103 / 60;
+}
+
+.home-view-products {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 44px;
+  margin: 2rem auto 0;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #3f2b1b;
+  border-radius: 8px;
+  background: #3f2b1b;
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+}
+
+.home-view-products:hover {
+  background: #291b11;
+  border-color: #291b11;
+}
+
+.home-view-products:focus-visible {
+  outline: 3px solid #8d5426;
+  outline-offset: 3px;
+}
+
+.home-page .product-card-content {
+  padding: 0.96rem 1rem;
+}
+
+.home-page .product-card-name {
+  font-size: 1.1rem;
+  margin-bottom: 0.336rem;
+}
+
+.home-page .product-card-description {
+  font-size: 0.8rem;
+  line-height: 1.44;
+  margin-bottom: 0.72rem;
+}
+
+.home-page .product-card-price {
+  font-size: 1.25rem;
+}
+
+.home-page .product-card-price-row {
+  margin-bottom: 0.72rem;
+}
+
+.home-page .product-card-actions {
+  gap: 0.48rem;
+}
+
+.home-page .product-card-add,
+.home-page .product-card-details {
+  padding: 0.48rem 0.75rem;
+  font-size: 0.85rem;
 }
 
 .product-card {
@@ -745,7 +979,10 @@ body {
 }
 
 .checkout-section-title {
-  font-size: 1.5rem;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.3;
   margin-bottom: 1.5rem;
   color: #3f2b1b;
 }
@@ -778,6 +1015,8 @@ body {
 
 .checkout-item-name {
   font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
   margin-bottom: 0.5rem;
   color: #3f2b1b;
 }
@@ -785,6 +1024,7 @@ body {
 .checkout-item-price {
   color: #6c6054;
   font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .checkout-item-controls {
@@ -859,13 +1099,13 @@ body {
 }
 
 .checkout-total-label {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   color: #6c6054;
 }
 
 .checkout-total-value {
   font-size: 1.1rem;
-  font-weight: bold;
+  font-weight: 600;
   color: #3f2b1b;
   font-variant-numeric: tabular-nums;
 }
@@ -875,7 +1115,13 @@ body {
   color: #52613e;
 }
 
-.checkout-page .page-title {
+.checkout-page .page-title,
+.orders-page .page-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
   color: #3f2b1b;
 }
 
