@@ -1,6 +1,7 @@
 import { createContext, useContext } from "react";
 import { useState, useEffect } from "react";
 import { getProductsById } from "../Data/Products";
+import { toast } from "react-toastify";
 
 const CartContext = createContext(null);
 
@@ -10,7 +11,7 @@ export default function CartProvider({ children }) {
         try {
             const storeCart = JSON.parse(localStorage.getItem(CART_KEY) || "[]"
             );
-    
+
             return Array.isArray(storeCart) ? storeCart.filter(item =>
                 item !== null && typeof item === "object" &&
                 Number.isSafeInteger(item.id) && !!getProductsById(item.id) &&
@@ -21,7 +22,7 @@ export default function CartProvider({ children }) {
         }
 
     }); //{id: 2. Quantity: 5}
-    
+
     useEffect(() => {
         try {
             localStorage.setItem(CART_KEY, JSON.stringify(cartItems));

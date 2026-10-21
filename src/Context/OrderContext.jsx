@@ -41,13 +41,14 @@ export default function OrderProvider({ children }) {
     const cartItem = getCartItemsWithProduct();
     const navigate = useNavigate();
 
+
     const saveOrder = () => {
         if (!user) {
             alert("Please log in or sign up to place an order");
             navigate('/auth');
             return;
-        }else {
-            const order =  {
+        } else {
+            const order = {
                 id: crypto.randomUUID(),
                 customerEmail: user.email,
                 items: cartItem.map(({ product, quantity }) => ({
@@ -76,8 +77,41 @@ export default function OrderProvider({ children }) {
             }
             return order;
         }
+
     }
-    
+    const deleteOrder = (orderId) => {
+        if (!user) return false;
+
+        try {
+            const storedOrders = JSON.parse(
+                localStorage.getItem(ORDERS_KEY) || "[]"
+            );
+            if (!Array.isArray(storedOrders)) {
+                throw new Error("Saved order history is invalid");
+            }
+
+            const updatedOrders = storedOrders
+                .filter(isValidOrder)
+                .filter(
+                    (order) =>
+                        !(
+                            order.id === orderId &&
+                            order.customerEmail === user.email
+                        )
+                );
+            // Persist first so a storage failure doesn't hide the order.
+            localStorage.setItem(
+                ORDERS_KEY,
+                JSON.stringify(updatedOrders)
+            );
+            setOrders(updatedOrders);
+            return true;
+        } catch (error) {
+            console.error("Order could not be deleted:", error)
+            return false
+        }
+    };
+
 
     // const addToCart = (productId) => {
     //     const existing = cartItems.find((item) => item.id === productId)
@@ -112,7 +146,7 @@ export default function OrderProvider({ children }) {
     // }
 
 
-    return <OrderContext.Provider value={{ orders, saveOrder, getCartTotal }}>{children}</OrderContext.Provider>;
+    return <OrderContext.Provider value={{ orders, saveOrder, getCartTotal, deleteOrder }}>{children}</OrderContext.Provider>;
 }
 
 

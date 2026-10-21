@@ -1,10 +1,11 @@
+import { toast } from 'react-toastify';
 import { useAuth } from '../Context/AuthContext'
 import { useOrder } from '../Context/OrderContext'
 
 
 const OrderHistory = () => {
     const { user } = useAuth();
-    const { orders } = useOrder();
+    const { orders, deleteOrder } = useOrder();
     const order = user
         ? orders.filter(order => order.customerEmail === user.email)
         : [];
@@ -12,7 +13,13 @@ const OrderHistory = () => {
     return (
         <main className="page orders-page">
             <div className="container">
-                <h1 className="page-title">Order History</h1>
+                <header className="orders-header">
+                    <h1 className="page-title">Order History</h1>
+                    <form className="orders-search" role="search" aria-label="Search order history">
+                        <input className="orders-search-input" type="search" name="search" aria-label="Order ID" placeholder="Enter your order ID" />
+                        <button className="orders-search-button" type="submit">Search orders</button>
+                    </form>
+                </header>
                 {!user ? (
                     <p className="orders-empty">Please log in to view your order history.</p>
                 ) : order.length === 0 ? (
@@ -21,7 +28,7 @@ const OrderHistory = () => {
                     <ul className="orders-list">
                         {order.map(order => (
                             <li key={order.id} className="order-card">
-                                <h2 className="order-heading">Order <span className="order-reference">#{order.id}</span></h2>
+                                <h2 className="order-heading">Order: <span className="order-reference">#{order.id}</span></h2>
                                 {order.createdAt && (
                                     <p className="order-date">
                                         <time dateTime={order.createdAt}>
@@ -42,6 +49,19 @@ const OrderHistory = () => {
                                         </li>
                                     ))}
                                 </ul>
+                                <button type="button"
+                                    className="checkout-remove"
+                                    onClick={() => {
+                                        const confirmed = window.confirm(
+                                            "Delete this order from your history?"
+                                        );
+
+                                        if (confirmed && !deleteOrder(order.id)) {
+                                            alert("Could not delete the order. Please try again.");
+                                        } else {
+                                            toast.success('Order deleted successfully')
+                                        }
+                                    }}>Delete Order</button>
 
                                 <p className="order-subtotal">
                                     <strong>
