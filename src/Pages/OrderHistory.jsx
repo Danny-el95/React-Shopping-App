@@ -49,6 +49,7 @@ const OrderHistory = () => {
                                         </li>
                                     ))}
                                 </ul>
+                                <div className="order-footer">
                                 <button type="button"
                                     className="checkout-remove"
                                     onClick={() => {
@@ -56,19 +57,22 @@ const OrderHistory = () => {
                                             "Delete this order from your history?"
                                         );
 
-                                        if (confirmed && !deleteOrder(order.id)) {
-                                            alert("Could not delete the order. Please try again.");
-                                        } else {
+                                        if (confirmed && deleteOrder(order.id)) {
                                             toast.success('Order deleted successfully')
+                                        } else {
+                                            toast.error("Could not delete the order. Please try again.");
                                         }
                                     }}>Delete Order</button>
 
+                                <div className="order-footer-summary">
                                 <p className="order-subtotal">
                                     <strong>
                                         Subtotal: ${order.subtotal.toFixed(2)}
                                     </strong>
                                 </p>
                                 <p className="order-shipping-note">Shipping is not included</p>
+                                </div>
+                                </div>
                             </li>
 
                         ))}

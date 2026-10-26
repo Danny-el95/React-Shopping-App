@@ -146,7 +146,22 @@
 
 .order-item h3 { color: #3f2b1b; font-size: 1rem; font-weight: 600; line-height: 1.4; }
 .order-item-total { color: #52613e; font-weight: 600; text-align: right; }
-.order-subtotal { margin-top: 0.5rem; padding-top: 1.25rem; border-top: 2px solid #d8cbbc; color: #3f2b1b; text-align: right; font-size: 1.15rem; }
+.order-footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  padding-top: 1.25rem;
+  border-top: 2px solid #d8cbbc;
+}
+
+.order-footer-summary {
+  margin-left: auto;
+}
+
+.order-subtotal { color: #3f2b1b; text-align: right; font-size: 1.15rem; }
 .order-shipping-note { margin-top: 0.25rem; color: #6c6054; text-align: right; font-size: 0.85rem; }
 .order-item p, .order-subtotal { font-variant-numeric: tabular-nums; }
 .order-subtotal strong { font-weight: 600; }
@@ -1116,7 +1131,8 @@ body {
 }
 
 .checkout-page .page-title,
-.orders-page .page-title {
+.orders-page .page-title,
+.products-page .page-title {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: clamp(2rem, 4vw, 2.75rem);
   font-weight: 500;
