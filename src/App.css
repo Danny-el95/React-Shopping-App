@@ -525,6 +525,23 @@ body {
   font-size: 0.85rem;
 }
 
+/* Shorter catalog cards; retain the existing grid widths and tap targets. */
+.products-page .product-card-image {
+  aspect-ratio: 16 / 9;
+}
+
+.products-page .product-card-content {
+  padding: 0.9rem 1.25rem;
+}
+
+.products-page .product-card-description {
+  margin-bottom: 0.75rem;
+}
+
+.products-page .product-card-price-row {
+  margin-bottom: 0.75rem;
+}
+
 .product-card {
   display: flex;
   flex-direction: column;
