@@ -1,0 +1,141 @@
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useAuth } from '../Context/AuthContext';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+
+
+
+const Auth = () => {
+    const location = useLocation();
+
+    return (
+        <AuthForm
+            key={location.key}
+            initialMode={location.state?.initialMode === 'login' ? 'login' : 'signUp'}
+            returnTo={location.state?.from || '/'}
+        />
+    );
+};
+
+const AuthForm = ({ initialMode, returnTo }) => {
+    const [mode, setMode] = useState(initialMode);
+    const [error, setError] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
+    const { register, handleSubmit, formState: { errors, isSubmitting }, control, reset, getValues } = useForm();
+    const { signUp, login } = useAuth();
+    const navigate = useNavigate();
+
+    const onSubmit = async (data) => {
+        setError(null);
+        let result;
+
+        if (mode === 'signUp') {
+            result = await signUp(data.username, data.email, data.password);
+        } else {
+            result = await login(data.email, data.password);
+        }
+
+        if (result.success) {
+            toast.success(result.message);
+            navigate(returnTo, { replace: true });
+        } else {
+            setError(result.error);
+        }
+    };
+
+    return (
+        <div className='page auth-page'>
+            <div className='container'>
+                <div className='auth-container'>
+                    <p className='product-card-eyebrow auth-brand'>D&apos;s NutShop</p>
+                    <h1 className='auth-title'>
+                        {mode === 'signUp' ? 'Create your account' : 'Welcome back'}
+                    </h1>
+                    <p className='auth-subtitle'>{mode === 'signUp' ? 'Sign up for D’s NutShop.' : 'Log in to continue shopping.'}</p>
+                    <form className='auth-form' onSubmit={handleSubmit(onSubmit)}>
+                        {error && <div className='error-message' role='alert'>{error}</div>}
+                        {mode === 'signUp' && (
+                            <div className='form-group'>
+                                <label className='form-label' htmlFor='username'>
+                                    Username
+                                </label>
+                                <input type='text' autoComplete='username' aria-invalid={!!errors.username} aria-describedby={errors.username ? 'username-error' : undefined} className='form-input' id='username' {...register('username', {
+                                    required: "Username is required",
+                                    pattern: {
+                                        value: /^(?=.*[0-9_])[a-zA-Z0-9_]{3,100}$/,
+                                        message: 'Use 3–100 letters, numbers, or underscores, including at least one number or underscore.',
+                                    },
+
+                                })} />
+                                {errors.username && <span id='username-error' className='form-error' role='alert'>{errors.username.message}</span>}
+                            </div>
+                        )}
+                        <div className='form-group'>
+                            <label className='form-label' htmlFor='email'>
+                                Email
+                            </label>
+                            <input type='email' autoComplete='email' aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-error' : undefined} className='form-input' id='email' {...register('email', { required: "Email is required" })} />
+                            {errors.email && <span id='email-error' className='form-error' role='alert'>{errors.email.message}</span>}
+                        </div>
+                        <div className='form-group'>
+                            <label className='form-label' htmlFor='password'>
+                                Password
+                            </label>
+                            <div className='auth-password-field'>
+                                <input type={showPassword ? 'text' : 'password'} autoComplete={mode === 'signUp' ? 'new-password' : 'current-password'} aria-invalid={!!errors.password} aria-describedby={errors.password ? 'password-error' : undefined} className='form-input' id='password' {...register('password', {
+                                    required: "Password is required",
+                                    minLength: {
+                                        value: 8,
+                                        message: "Password should be at least 8 characters.",
+                                    },
+                                    validate: (value) => new TextEncoder().encode(value).length <= 72 || 'Password should be at most 72 UTF-8 bytes.',
+                                })} />
+                                <button type='button' className='auth-password-toggle' aria-controls='password' aria-label={showPassword ? 'Hide password' : 'Show password'} aria-pressed={showPassword} onClick={() => setShowPassword(!showPassword)}>{showPassword ? 'Hide' : 'Show'}</button>
+                            </div>
+                            {mode === 'login' && (
+                                <Link to='/auth/forgot-password' className='auth-forgot-password'>
+                                    Forgot your password?
+                                </Link>
+                            )}
+                            {errors.password && <span id='password-error' className='form-error' role='alert'>{errors.password.message}</span>}
+                        </div>
+                        <button type='submit' className='auth-submit' disabled={isSubmitting}>
+                            {isSubmitting ? 'Please wait...' : mode === 'signUp' ? 'Create Account' : 'Log In'}
+                        </button>
+                    </form>
+
+                    <div className='auth-switch'>
+                        {mode === 'signUp' ? (
+                            <p>Already have an account?
+                                <button type='button' className='auth-link' disabled={isSubmitting} onClick={() => {
+                                    setMode('login'); setError(null); setShowPassword(false); reset(
+                                        {
+                                            ...getValues(),
+                                            password: ""
+                                        }
+                                    );
+                                }}>
+                                    Log in
+                                </button></p>
+                        ) : (
+                            <p>New here? <button type='button' className='auth-link' disabled={isSubmitting} onClick={() => {
+                                setMode('signUp'); setError(null); setShowPassword(false);
+                                reset(
+                                    {
+                                        ...getValues(),
+                                        password: ""
+                                    }
+                                );
+                            }}>Create an account</button></p>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    )
+}
+
+export default Auth
