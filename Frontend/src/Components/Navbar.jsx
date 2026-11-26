@@ -43,6 +43,7 @@ const Navbar = () => {
                 </button>
                 <div className='navbar-links'>
                     <Link to='/' className="navbar-link">Home</Link>
+                    <NavLink to='/product' className="navbar-link">Products</NavLink>
                     <Link to='/checkout'
                         className="navbar-link navbar-cart"
                         aria-label={`Cart, ${cartQuantity} ${cartQuantity === 1 ? 'item' : 'items'}`}

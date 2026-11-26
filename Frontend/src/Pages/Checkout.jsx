@@ -4,6 +4,7 @@ import { useAuth } from '../Context/AuthContext';
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useOrder } from "../Context/OrderContext";
 import { toast } from "react-toastify";
+import ProductImage from "../Components/ProductImage";
 
 
 const Checkout = () => {
@@ -126,7 +127,7 @@ const Checkout = () => {
                         {user && !cartLoading && !cartError && cartItems.length === 0 && <p ref={emptyMessage} tabIndex={-1} className="checkout-empty">Your cart is empty. Browse our nuts to find your next favorite.</p>}
                         {cartItems.map((item) => (
                             <div key={item.id} className="checkout-item">
-                                <img
+                                <ProductImage
                                     src={item.product.image}
                                     alt={item.product.name}
                                     className="checkout-item-image"
@@ -171,7 +172,7 @@ const Checkout = () => {
                             <p className="checkout-total-value checkout-total-final">${total.toFixed(2)}</p>
                         </div>
 
-                        <p className="checkout-shipping-note">Shipping is not included in the total shown.</p>
+                        <p className="checkout-shipping-note">Shipping is not included in the total.</p>
                         <button className="product-card-add checkout-order" disabled={busy || (!hasPendingCheckout && (Boolean(cartError) || !totalsMatch || hasUnavailableItems || cartItems.length === 0))} onClick={placeOrder}>
                             {isSaving ? 'Placing order...' : hasPendingCheckout ? 'Retry checkout' : 'Place Order'}
                         </button>

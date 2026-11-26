@@ -196,7 +196,7 @@ export default function AuthProvider({ children }) {
     return (
         <AuthContext.Provider value={{ signUp, user, logout, login, loading, refreshSession }}>
             {sessionError && <p role='alert'>{sessionError}</p>}
-            {loading ? <p role='status'>Checking your account...</p> : children}
+            {loading ? <p role='status'>Checking your account. Please wait...</p> : children}
         </AuthContext.Provider>
     );
 }
