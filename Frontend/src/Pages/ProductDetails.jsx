@@ -114,7 +114,7 @@ const ProductDetailsContent = ({ id }) => {
             <div className="page">
                 <div className="container">
                     <p role="alert">{error || 'Product not found.'}</p>
-                    <Link to="/product">Back to all products</Link>
+                    <Link to="/product">Back to all products.</Link>
                 </div>
             </div>
         );
@@ -130,7 +130,7 @@ const ProductDetailsContent = ({ id }) => {
                 <div className="product-detail">
                     <div className="product-detail-image">
                         <ProductImage
-                            // src={product.image}
+                            src={product.image}
                             alt={product.name}
                             loading='lazy'
                             decoding='async'

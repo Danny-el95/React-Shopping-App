@@ -50,7 +50,7 @@ const Home = () => {
                     A little crunch.<br />
                     <span>A moment to enjoy.</span>
                 </h1>
-                <p className='home-subtitle'>From cashews to pistachios, discover your favorite nuts for everyday snacking, sharing, and everything in between.</p>
+                <p className='home-subtitle'>From cashews to pistachios, discover your favorite nuts for everyday snacking, sharing, and everything in between in the holiday season.</p>
             </header>
 
             <div className='container'>

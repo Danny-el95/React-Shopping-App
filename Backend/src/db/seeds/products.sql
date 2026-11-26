@@ -40,7 +40,7 @@ VALUES
     (
         6,
         'Macadamia nuts',
-        19.99,
+        9.99,
         '/images/products/Macadamia.webp',
         'Delicious macadamia nuts with a satisfying crunch to soothe your taste for the best price on the market.'
     ),
