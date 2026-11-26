@@ -9,6 +9,7 @@ if (existsSync(envPath)) process.loadEnvFile(envPath);
 export const env = {
   NODE_ENV: process.env.NODE_ENV || 'development',
   PORT: Number(process.env.PORT || 8080),
+  PUBLIC_BASE_URL: process.env.PUBLIC_BASE_URL || 'http://localhost:8080',
   CLIENT_ORIGIN: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
   DB_HOST: process.env.DB_HOST || 'localhost',
   DB_PORT: Number(process.env.DB_PORT || 3306),

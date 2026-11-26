@@ -1,10 +1,11 @@
 import { pool } from '../../db/pool.js';
+import { getProductImageUrl } from '../../utils/getProductImageUrl.js';
 
 // Read only this user's cart and attach current product details.
 export async function findCartItems(userId, db = pool, lockRows = false) {
   const sql = `
     SELECT c.product_id, c.quantity,
-           p.name, p.price, p.image, p.description, p.is_active
+           p.name, p.price, p.image, p.description, p.is_active, p.package_weight_grams
     FROM cart_items c
     JOIN products p ON p.id = c.product_id
     WHERE c.user_id = ?
@@ -21,7 +22,8 @@ export async function findCartItems(userId, db = pool, lockRows = false) {
       id: Number(row.product_id),
       name: row.name,
       price: Number(row.price),
-      image: row.image,
+      packageWeightGrams: Number(row.package_weight_grams),
+      image: getProductImageUrl(row.image),
       description: row.description,
       isActive: Boolean(row.is_active),
     },

@@ -1,16 +1,43 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { fetchProductsById } from '../api/server';
 import { useCart } from '../Context/CartContext'
 import { useOrder } from '../Context/OrderContext'
+import ProductImage from "../Components/ProductImage";
 
 
 const ProductDetails = () => {
     // Read the product ID from the page URL.
     const { id } = useParams();
+    const navigate = useNavigate();
+
+    // A numeric offset moves back in history; a string navigates to a URL.
+    const goBack = () => {
+        navigate(-1);
+    }
 
     // A different key creates fresh state whenever the URL's product ID changes.
-    return <ProductDetailsContent key={id} id={id} />;
+    return (
+        <>
+            <div className="product-detail-navigation">
+                <button
+                    type="button"
+                    className="product-detail-back"
+                    onClick={goBack}
+                >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="m12 5-7 7 7 7M5 12h14" />
+                    </svg>
+                    Back
+                </button>
+            </div>
+
+            <ProductDetailsContent key={id} id={id} />
+        </>
+
+    )
+
+
 };
 
 const ProductDetailsContent = ({ id }) => {
@@ -26,6 +53,7 @@ const ProductDetailsContent = ({ id }) => {
     // Keep the existing cart actions and quantity display.
     const { addToCart, cartItems, cartLoading, isUpdating } = useCart();
     const { isSaving, hasPendingCheckout } = useOrder();
+
 
     // Fetch the product after mounting; the key handles resetting local state.
     useEffect(() => {
@@ -94,16 +122,24 @@ const ProductDetailsContent = ({ id }) => {
 
     const productInCart = cartItems.find((item) => item.id === product.id);
 
+
+
     return (
         <div className="page">
             <div className="container">
                 <div className="product-detail">
                     <div className="product-detail-image">
-                        <img src={product.image} alt={product.name}></img>
+                        <ProductImage
+                            // src={product.image}
+                            alt={product.name}
+                            loading='lazy'
+                            decoding='async'
+                        />
                     </div>
                     <div className="product-detail-content">
                         <p className="product-card-eyebrow">D&apos;s NutShop</p>
                         <h1 className="product-detail-name">{product.name}</h1>
+                        <p className="product-package-weight">Package weight: {product.packageWeightGrams}g</p>
                         <p className="product-detail-price">${product.price.toFixed(2)}</p>
                         <p className="product-detail-description">{product.description}</p>
                         <span className="product-card-cart-count product-detail-cart-count">

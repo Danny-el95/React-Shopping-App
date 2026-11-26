@@ -2,11 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../Context/CartContext'
 import { useOrder } from '../Context/OrderContext'
+import ProductImage from './ProductImage'
 
 
 const ProductCard = ({ product }) => {
-    // Show tall package photos in full instead of cropping them into wide cards.
-    const showFullPackage = product.id === 2 || product.id === 3;
     const { addToCart, cartItems, cartLoading, isUpdating } = useCart();
     const { isSaving, hasPendingCheckout } = useOrder();
     const productInCart = cartItems.find((item) => item.id === product.id);
@@ -37,11 +36,18 @@ const ProductCard = ({ product }) => {
     return (
         <article className='product-card'>
             <Link to={`/products/${product.id}`} className='product-card-image-link' aria-label={`View ${product.name} details`}>
-                <img src={product.image} alt={product.name} className={`product-card-image${showFullPackage ? ' product-card-image-package' : ''}`} loading='lazy' decoding='async' />
+                <ProductImage
+                    src={product.image}
+                    alt={product.name}
+                    className="product-card-image"
+                    loading='lazy'
+                    decoding='async'
+                />
             </Link>
             <div className='product-card-content'>
                 <p className='product-card-eyebrow'>D&apos;s NutShop</p>
                 <h3 className='product-card-name'>{product.name}</h3>
+                <p className="product-package-weight">{product.packageWeightGrams}g per pack</p>
                 <p className='product-card-description'>{product.description}</p>
                 <div className='product-card-price-row'>
                     <p className='product-card-price'>${product.price.toFixed(2)}</p>

@@ -133,6 +133,7 @@ const Checkout = () => {
                                 />
                                 <div className="checkout-item-details">
                                     <h3 className="checkout-item-name">{item.product.name}</h3>
+                                    <p className="product-package-weight">{item.product.packageWeightGrams}g per pack</p>
                                     <p className="checkout-item-price">${item.product.price.toFixed(2)} each</p>
                                     {!item.product.isActive && <p>Currently unavailable</p>}
                                 </div>

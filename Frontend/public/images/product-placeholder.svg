@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" role="img" aria-labelledby="title description">
+  <title id="title">Product image unavailable</title>
+  <desc id="description">A minimal photo outline with a muted image unavailable label.</desc>
+  <rect width="800" height="500" fill="#f5f3ef" />
+  <g fill="none" stroke="#a39a8e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="352" y="166" width="96" height="80" rx="8" />
+    <circle cx="378" cy="190" r="7" />
+    <path d="m353 231 24-24 18 18 20-27 32 38" />
+  </g>
+  <text x="400" y="292" text-anchor="middle" fill="#615a50" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" letter-spacing="2">IMAGE UNAVAILABLE</text>
+  <path d="M380 316h40" stroke="#d3ccc2" stroke-width="2" />
+</svg>

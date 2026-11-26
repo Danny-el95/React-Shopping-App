@@ -10,7 +10,7 @@ test('migration history rejects changed, missing or out-of-order files', () => {
 });
 test('repository SQL migrations load in numbered order', async () => {
   const migrations = await readMigrations(new URL('../src/db/migrations/', import.meta.url));
-  assert.deepEqual(migrations.map((file) => file.name), ['0001_create_users.sql', '0002_create_sessions.sql', '0003_create_products.sql', '0004_create_cart_items.sql', '0005_create_orders.sql', '0006_create_order_items.sql']);
+  assert.deepEqual(migrations.map((file) => file.name), ['0001_create_users.sql', '0002_create_sessions.sql', '0003_create_products.sql', '0004_create_cart_items.sql', '0005_create_orders.sql', '0006_create_order_items.sql', '0007_add_product_package_weight.sql', '0008_use_relative_product_image_paths.sql']);
   assert.equal(migrations[0].checksum.length, 64);
 });
 function connection(fail = false) {

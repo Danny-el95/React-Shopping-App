@@ -458,10 +458,6 @@ body {
   gap: 2rem;
 }
 
-.home-page .product-card-image {
-  /* Offset the wider card so its image is 4% shorter. */
-  aspect-ratio: 103 / 60;
-}
 
 .home-view-products {
   display: flex;
@@ -493,7 +489,7 @@ body {
 }
 
 .home-page .product-card-content {
-  padding: 0.96rem 1rem;
+  padding: 0.85rem 1rem;
 }
 
 .home-page .product-card-name {
@@ -525,18 +521,91 @@ body {
   font-size: 0.85rem;
 }
 
-/* Compact catalog cards with unchanged image proportions. */
+.products-search {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.products-search-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #3f2b1b;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.products-search-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.products-search-field {
+  position: relative;
+  flex: 1 1 220px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.products-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  color: #76634e;
+  pointer-events: none;
+}
+
+.products-search-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.75rem 1rem 0.75rem 2.85rem;
+  border: 1px solid #d8cbbc;
+  border-radius: 10px;
+  background: #fffdf8;
+  color: #3f2b1b;
+  font: inherit;
+  font-size: 1rem;
+}
+
+.products-search-input::placeholder { color: #76634e; }
+
+.products-search-input:focus {
+  outline: 2px solid #8d5426;
+  outline-offset: 2px;
+  border-color: #8d5426;
+}
+
+.products-search-clear {
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  border: 1px solid #d8cbbc;
+  border-radius: 10px;
+  background: #fffdf8;
+  color: #3f2b1b;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.products-search-clear:hover { background: #eee6da; }
+.products-search-clear:focus-visible {
+  outline: 2px solid #8d5426;
+  outline-offset: 2px;
+}
+
+/* Keep catalog content compact while sharing the same image frame as Home. */
 .products-page .product-card {
   width: 95%;
   justify-self: center;
 }
 
-.products-page .product-card-image {
-  aspect-ratio: 16 / 9;
-}
 
 .products-page .product-card-content {
-  padding: 0.6rem 1.25rem;
+  padding: 0.85rem 1rem;
 }
 
 .products-page .product-card-description {
@@ -566,28 +635,36 @@ body {
 
 .product-card-image-link {
   display: block;
+  flex: none;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
   background: #eee6da;
 }
 
 .product-card-image {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-}
-
-/* Keep almond and pistachio packages fully visible in the shared image area. */
-.product-card-image-package {
+  height: 100%;
   object-fit: contain;
   object-position: center;
   background: #fff;
+}
+
+.product-package-weight {
+  margin: 0 0 0.75rem;
+  color: #76634e;
+  font-size: 0.9rem;
 }
 
 .product-card-content {
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 1.25rem;
+  padding: 0.85rem 1rem;
+}
+
+.product-card .product-package-weight {
+  margin-bottom: 0.4rem;
 }
 
 .product-card-eyebrow {
@@ -601,15 +678,15 @@ body {
 
 .product-card-name {
   font-size: 1.25rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   color: #3f2b1b;
 }
 
 .product-card-description {
   color: #6c6054;
   font-size: 0.875rem;
-  line-height: 1.6;
-  margin-bottom: 1.25rem;
+  line-height: 1.45;
+  margin-bottom: 0.75rem;
 }
 
 .product-card-price-row {
@@ -619,7 +696,7 @@ body {
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: auto;
-  margin-bottom: 1rem;
+  margin-bottom: 0.65rem;
 }
 
 .product-card-price {
@@ -704,6 +781,42 @@ body {
   }
 }
 
+.product-detail-navigation {
+  display: flex;
+  justify-content: flex-start;
+  padding: 1rem;
+}
+
+.product-detail-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  border: 1px solid #d8cbbc;
+  border-radius: 10px;
+  background: #fffdf8;
+  color: #3f2b1b;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.product-detail-back:hover {
+  background: #eee6da;
+  border-color: #8d5426;
+}
+
+.product-detail-back:active {
+  background: #e8dfd1;
+}
+
+.product-detail-back:focus-visible {
+  outline: 3px solid #8d5426;
+  outline-offset: 3px;
+}
+
 .product-detail {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -725,7 +838,7 @@ body {
   width: 100%;
   display: block;
   aspect-ratio: 4 / 3;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .product-detail-content {

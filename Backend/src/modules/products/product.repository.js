@@ -1,4 +1,5 @@
 import { pool } from '../../db/pool.js';
+import { getProductImageUrl } from '../../utils/getProductImageUrl.js';
 
 function formatProduct(product) {
   // MySQL returns DECIMAL prices as strings; the frontend needs numbers.
@@ -6,14 +7,15 @@ function formatProduct(product) {
     id: Number(product.id),
     name: product.name,
     price: Number(product.price),
-    image: product.image,
+    packageWeightGrams: Number(product.package_weight_grams),
+    image: getProductImageUrl(product.image),
     description: product.description,
   };
 }
 
 export async function findAllProducts() {
   const sql = `
-    SELECT id, name, price, image, description
+    SELECT id, name, price, image, description, package_weight_grams
     FROM products
     WHERE is_active = TRUE
     ORDER BY id
@@ -25,7 +27,7 @@ export async function findAllProducts() {
 
 export async function findProductById(id) {
   const sql = `
-    SELECT id, name, price, image, description
+    SELECT id, name, price, image, description, package_weight_grams
     FROM products
     WHERE id = ? AND is_active = TRUE
     LIMIT 1

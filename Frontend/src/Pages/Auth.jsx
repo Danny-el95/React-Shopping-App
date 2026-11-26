@@ -23,7 +23,7 @@ const AuthForm = ({ initialMode, returnTo }) => {
     const [mode, setMode] = useState(initialMode);
     const [error, setError] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
-    const { register, handleSubmit, formState: { errors, isSubmitting }, control, reset, getValues } = useForm();
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, getValues } = useForm();
     const { signUp, login } = useAuth();
     const navigate = useNavigate();
 

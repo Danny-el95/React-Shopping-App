@@ -2,30 +2,21 @@
 
 Express 5, MySQL2 promises, bcrypt, handwritten SQL, and HTTP-only session cookies.
 Requires Node.js 24 or later and a compatible MySQL/MariaDB server. The current
-local database runs on XAMPP MariaDB 10.4.32 at `127.0.0.1:3307`. No ORM is used.
+local database runs on XAMPP MariaDB 10.4.32 at `127.0.0.1:3306`. No ORM is used.
 
 ## Local XAMPP database
 
-The existing `e_commerce` database was copied from MySQL on port 3306 to XAMPP
-MariaDB on port 3307. User rows, password hashes, sessions, and migration history
-were preserved and compared after import. The original MySQL database was not
-modified. Backend `.env` now selects port 3307; application credentials were
-recreated on XAMPP with privileges scoped to `e_commerce` for local development.
+Use `C:\xampp\xampp-control.exe`. MariaDB runs from `C:\xampp\mysql\data`
+on `127.0.0.1:3306`; the backend selects database `e_commerce`.
 
-Start XAMPP MySQL before starting the backend. The control-panel MySQL port and
-phpMyAdmin server port are configured as 3307. Restart the XAMPP control panel
-if it was already open when these settings changed.
+The standalone MySQL application's `e_commerce`, `nutshop`, and `world` databases
+were imported into this XAMPP instance. The Shopping App's remaining migrations
+were applied and its eight products seeded. Source user/password records were
+preserved; newer records from the previous XAMPP instance were not merged.
 
-Migration backups and the verification report are in the ignored `.db-transfer`
-folder. It includes an unchanged SQL export, a MariaDB-compatible import copy,
-and the previous backend `.env`. These files contain private database material;
-keep them out of Git. XAMPP config backups have the suffix
-`.shopping-app-before-3307.bak` beside their original files.
-
-To return the backend to the original server, restore the saved `.env` and restart
-the backend. This does not copy new XAMPP writes back to the original database.
-Do not rerun initial migrations: the imported migration history is already up
-to date. Keep the old server and backups until the application has been checked.
+Start XAMPP MySQL before starting the backend. Its retained Windows service is
+named `mysql`. phpMyAdmin uses `127.0.0.1:3306`. Use `npm run migrate:status`
+to check schema history; do not modify previously applied migration files.
 
 ## Setup
 
