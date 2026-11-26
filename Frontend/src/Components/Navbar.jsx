@@ -4,14 +4,12 @@ import { useAuth } from '../Context/AuthContext'
 import { useCart } from '../Context/CartContext'
 import { useOrder } from '../Context/OrderContext'
 import BrandLogo from './BrandLogo'
-// import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
     const sidebar = useRef(null);
     const [menuOpen, setMenuOpen] = useState(false);
     const closeMenu = () => sidebar.current?.close();
 
-    // const navigate = useNavigate();
 
     useEffect(() => {
         if (!menuOpen) return;

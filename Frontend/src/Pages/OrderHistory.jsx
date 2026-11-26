@@ -48,7 +48,7 @@ const OrderHistory = () => {
                 {!user ? (
                     <p className="orders-empty">Please <Link to="/auth" state={{ initialMode: 'login', from: '/orders' }}>log in</Link> to view your order history.</p>
                 ) : ordersLoading ? (
-                    <p role="status">Loading your orders...</p>
+                    <p role="status">Loading your orders. Please wait...</p>
                 ) : ordersError ? (
                     <div role="alert"><p>{ordersError}</p><button type="button" onClick={refreshOrders}>Retry loading orders</button></div>
                 ) : orders.length === 0 ? (
